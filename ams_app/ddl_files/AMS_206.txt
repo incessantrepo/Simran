@@ -1,0 +1,5 @@
+INSERT INTO recipes 
+    (recipe_id, recipe_name) 
+VALUES 
+    (4,"Tacos"),
+    (5,"Tomato Soup");
