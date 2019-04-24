@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_37929</versionUuid>
+    <rule>
+        <name>AMS_GetUSerDetails</name>
+        <uuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_37023</uuid>
+        <description></description>
+        <parentUuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_34552</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {},
+    style: "NONE",
+    height: "AUTO",
+    marginBelow: "STANDARD"
+  ),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_billboardLayout"(
+        backgroundMedia: #"SYSTEM_SYSRULES_documentImage"(
+          document: #"SYSTEM_SYSRULES_EXAMPLE_BILLBOARD_IMAGE"()
+        ),
+        backgroundColor: "#f0f0f0",
+        overlayStyle: "DARK",
+        overlayContents: {},
+        marginBelow: "STANDARD"
+      ),
+      #"SYSTEM_SYSRULES_cardLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_barcodeField"(
+            label: "Barcode",
+            labelPosition: "ABOVE",
+            acceptedTypes: {},
+            saveInto: {},
+            refreshAfter: "UNFOCUS",
+            validations: {}
+          ),
+          #"SYSTEM_SYSRULES_billboardLayout"(
+            backgroundMedia: #"SYSTEM_SYSRULES_documentImage"(
+              document: #"SYSTEM_SYSRULES_EXAMPLE_BILLBOARD_IMAGE"()
+            ),
+            backgroundColor: "#f0f0f0",
+            overlayStyle: "DARK",
+            overlayContents: {},
+            marginBelow: "STANDARD"
+          ),
+          #"SYSTEM_SYSRULES_videoField"(
+            label: "Video",
+            labelPosition: "ABOVE",
+            videos: {}
+          )
+        },
+        style: "NONE",
+        height: "AUTO",
+        marginBelow: "STANDARD"
+      ),
+      #"SYSTEM_SYSRULES_lineChartField"(
+        label: "Line Chart",
+        labelPosition: "ABOVE",
+        categories: {"Category 1", "Category 2", "Category 3"},
+        series: {
+          #"SYSTEM_SYSRULES_chartSeries"(label: "Chart Series", data: {1, 2, 3})
+        },
+        showLegend: true,
+        showTooltips: true
+      )
+    },
+    style: "NONE",
+    height: "AUTO",
+    marginBelow: "STANDARD"
+  ),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {},
+    style: "NONE",
+    height: "AUTO",
+    marginBelow: "STANDARD"
+  )
+}</definition>
+        <metadataExpr></metadataExpr>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37042"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37080"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37200"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37259"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37323"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37680"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37803"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37929"/>
+    </history>
+</contentHaul>
