@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
-    <versionUuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_37929</versionUuid>
+    <versionUuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_38449</versionUuid>
     <rule>
         <name>AMS_GetUSerDetails</name>
         <uuid>_a-0000e255-ca76-8000-23f0-01ef9001ef90_37023</uuid>
@@ -15,75 +15,150 @@
             <system>false</system>
             <unlogged>false</unlogged>
         </visibility>
-        <definition>{
-  #"SYSTEM_SYSRULES_cardLayout"(
-    contents: {},
-    style: "NONE",
-    height: "AUTO",
-    marginBelow: "STANDARD"
-  ),
-  #"SYSTEM_SYSRULES_cardLayout"(
-    contents: {
-      #"SYSTEM_SYSRULES_billboardLayout"(
-        backgroundMedia: #"SYSTEM_SYSRULES_documentImage"(
-          document: #"SYSTEM_SYSRULES_EXAMPLE_BILLBOARD_IMAGE"()
-        ),
-        backgroundColor: "#f0f0f0",
-        overlayStyle: "DARK",
-        overlayContents: {},
-        marginBelow: "STANDARD"
-      ),
-      #"SYSTEM_SYSRULES_cardLayout"(
+        <definition>load(
+  local!selectedId,
+  local!employees: {
+    {id: 11, name: "Elizabeth Ward",  dept: "Engineering", role: "Senior Engineer",   team: "Front-End Components",     pto: 15, startDate: today()-500},
+    {id: 22, name: "Michael Johnson", dept: "Finance",     role: "Payroll Manager",   team: "Accounts Payable",         pto: 2,  startDate: today()-100},
+    {id: 33, name: "John Smith",      dept: "Engineering", role: "Quality Engineer",  team: "User Acceptance Testing",  pto: 5,  startDate: today()-1000},
+    {id: 44, name: "Diana Hellstrom", dept: "Engineering", role: "UX Designer",       team: "User Experience",          pto: 49, startDate: today()-1200},
+    {id: 55, name: "Francois Morin",  dept: "Sales",       role: "Account Executive", team: "Commercial North America", pto: 15, startDate: today()-700}
+  },
+  local!pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(startIndex: 1, batchSize: 5),
+  with(
+    local!dataSubset: todatasubset(local!employees, local!pagingInfo),
+    local!data: index(local!dataSubset, "data", null),
+    {
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
         contents: {
-          #"SYSTEM_SYSRULES_barcodeField"(
-            label: "Barcode",
-            labelPosition: "ABOVE",
-            acceptedTypes: {},
-            saveInto: {},
-            refreshAfter: "UNFOCUS",
-            validations: {}
-          ),
-          #"SYSTEM_SYSRULES_billboardLayout"(
-            backgroundMedia: #"SYSTEM_SYSRULES_documentImage"(
-              document: #"SYSTEM_SYSRULES_EXAMPLE_BILLBOARD_IMAGE"()
-            ),
-            backgroundColor: "#f0f0f0",
-            overlayStyle: "DARK",
-            overlayContents: {},
-            marginBelow: "STANDARD"
-          ),
-          #"SYSTEM_SYSRULES_videoField"(
-            label: "Video",
-            labelPosition: "ABOVE",
-            videos: {}
+          #"SYSTEM_SYSRULES_gridField"(
+            totalCount: local!dataSubset.totalCount,
+            columns: {
+              #"SYSTEM_SYSRULES_gridTextColumn"(
+                label: "Name",
+                data: index(local!data, "name", {}),
+                /* Creates a dynamic link for every item in local!data */
+                links: #"SYSTEM_SYSRULES_forEach"(
+                  items: index(local!data, "id", {}),
+                  expression: #"SYSTEM_SYSRULES_dynamicLink"(value: fv!item, saveInto: local!selectedId)
+                )
+              ),
+              #"SYSTEM_SYSRULES_gridTextColumn"(
+                label: "Role",
+                data: index(local!data, "role", {})
+              ),
+              #"SYSTEM_SYSRULES_gridTextColumn"(
+                label: "Department",
+                data: index(local!data, "dept", {})
+              )
+            },
+            value: local!pagingInfo,
+            saveInto: local!pagingInfo,
+            rowHeader: 1
           )
         },
-        style: "NONE",
-        height: "AUTO",
-        marginBelow: "STANDARD"
+        showWhen: isnull(local!selectedId)
       ),
-      #"SYSTEM_SYSRULES_lineChartField"(
-        label: "Line Chart",
+      #"SYSTEM_SYSRULES_barChartField"(
+        label: "Bar Chart",
         labelPosition: "ABOVE",
         categories: {"Category 1", "Category 2", "Category 3"},
         series: {
           #"SYSTEM_SYSRULES_chartSeries"(label: "Chart Series", data: {1, 2, 3})
         },
+        stacking: "NONE",
         showLegend: true,
         showTooltips: true
+      ),
+      #"SYSTEM_SYSRULES_columnChartField"(
+        label: "Column Chart",
+        labelPosition: "ABOVE",
+        categories: {"Category 1", "Category 2", "Category 3"},
+        series: {
+          #"SYSTEM_SYSRULES_chartSeries"(label: "Chart Series", data: {1, 2, 3})
+        },
+        stacking: "NONE",
+        showLegend: true,
+        showTooltips: true
+      ),
+      #"SYSTEM_SYSRULES_richTextDisplayField"(
+        labelPosition: "COLLAPSED",
+        value: {
+          #"SYSTEM_SYSRULES_richTextItem_v1"(
+            text: {
+              #"SYSTEM_SYSRULES_richTextIcon"(
+                icon: "long-arrow-left"
+              ),
+              " Back to employee list"
+            },
+            link: #"SYSTEM_SYSRULES_dynamicLink"(
+              value: null,
+              saveInto: local!selectedId
+            ),
+            linkstyle: "STANDALONE"
+          )
+        },
+        showWhen: not(isnull(local!selectedId))
+      ),
+      with(
+        /* Replace with your rule to get the employee details */
+        local!selectedEmployee: displayvalue(local!selectedId, local!employees.id, local!employees, {}),
+        #"SYSTEM_SYSRULES_sectionLayout_v1"(
+          label: "Employee Details: " &amp; local!selectedEmployee.name,
+          contents: {
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Name",
+                      value: local!selectedEmployee.name,
+                      readOnly: true
+                    ),
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Department",
+                      value: local!selectedEmployee.dept,
+                      readOnly: true
+                    )
+                  }
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Role",
+                      value: local!selectedEmployee.role,
+                      readOnly: true
+                    ),
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Start Date",
+                      value: text(local!selectedEmployee.startDate, "MMM dd, yyyy"),
+                      readOnly: true
+                    )
+                  }
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Team",
+                      value: local!selectedEmployee.team,
+                      readOnly: true
+                    ),
+                    #"SYSTEM_SYSRULES_textField"(
+                      label: "Available PTO",
+                      value: local!selectedEmployee.pto &amp; " days",
+                      readOnly: true
+                    )
+                  }
+                )
+              }
+            )
+          },
+          showWhen: not(isnull(local!selectedId))
+        )
       )
-    },
-    style: "NONE",
-    height: "AUTO",
-    marginBelow: "STANDARD"
-  ),
-  #"SYSTEM_SYSRULES_cardLayout"(
-    contents: {},
-    style: "NONE",
-    height: "AUTO",
-    marginBelow: "STANDARD"
+    }
   )
-}</definition>
+)</definition>
         <metadataExpr></metadataExpr>
         <preferredEditor>interface</preferredEditor>
         <offlineEnabled>false</offlineEnabled>
@@ -123,5 +198,6 @@
         <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37680"/>
         <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37803"/>
         <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_37929"/>
+        <historyInfo versionUuid="_a-0000e255-ca76-8000-23f0-01ef9001ef90_38449"/>
     </history>
 </contentHaul>
